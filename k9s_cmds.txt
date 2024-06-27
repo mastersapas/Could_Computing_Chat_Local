@@ -1,0 +1,52 @@
+
+minikube start
+minikube delete
+
+// Contexto do docker
+docker context use default
+
+// Aplicar 
+kubectl apply -f cronjob.yaml
+
+// Remover
+kubectl delete Cronjob nome
+
+// Get Pods
+kubectl get pods
+
+
+// kubectl restart
+kubectl rollout restart deployment cloudcronjob-deployment
+
+// Guardar a imagem para *.tar
+docker save -o nome_imagem.tar nome_imagem
+
+// Enviar para o minikube
+minikube image load nome_imagem.tar
+
+
+// Pull image to minikube
+minikube image build -t nomeimage .
+
+// Verificar as imagems do minikube
+minikube image list
+
+
+//Eliminar Imagens do minikube
+minikube ssh
+docker images
+docker rmi nome --force
+
+kubectl run -it mytest --image mytest:v1
+
+
+minikube start --driver=hyperv
+minikube tunnel
+
+minikube addons enable metrics-server
+minikube addons enable ingress
+
+
+#####################################################################
+
+build da imagem do frontend varias vezes até dar -> erro era do frontend tem de ser load balancer

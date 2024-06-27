@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chat-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cloudfrontend
+            port:
+              number: 3000
+      - path: /socket.io
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: cloudwebsockets
+            port:
+              number: 3001
+  - host: api.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cloudapi
+            port:
+              number: 3002
+  - host: storage.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cloudstorage
+            port:
+              number: 3003

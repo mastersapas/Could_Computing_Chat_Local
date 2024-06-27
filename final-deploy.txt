@@ -1,0 +1,50 @@
+# Start minikube cluster
+minikube start
+
+# Set docker deafult context
+docker context use default
+
+# Add metrics and ingress
+minikube addons enable metrics-server
+minikube addons enable ingress
+
+# Open daahboard
+minikube dashboard
+
+# Cluster info
+kubectl cluster-info
+
+# Build e push dos projetos
+# Exemplo:
+minikube image build -t cloudapi .
+
+#######################################################################################################################################
+
+# Deploy dos serviços no cluster
+
+kubectl apply -f api-deployment.yaml
+kubectl apply -f websockets-deployment.yaml
+kubectl apply -f storage-deployment.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f cronjob-deployment.yaml
+kubectl apply -f mongodb-deployment.yaml
+kubectl get pods,service,cronjob
+
+kubectl apply -f ingress.yaml
+kubectl describe ingress
+kubectl get ingress
+
+minikube tunnel
+
+# Access on: http://localhost
+
+# Trigger cronjob
+kubectl create job --from=cronjob/cloudcronjob <job-name>
+
+#######################################################################################################################################
+
+# Destruir recursos do cluster GKE:
+kubectl delete all --all --all-namespaces
+
+# Destruir cluster
+minikube delete

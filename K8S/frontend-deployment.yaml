@@ -1,0 +1,38 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudfrontend-deployment
+  labels:
+    app: cloudfrontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cloudfrontend
+  template:
+    metadata:
+      labels:
+        app: cloudfrontend
+    spec:
+      containers:
+      - name: cloudfrontend
+        image: cloudfrontend
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudfrontend
+spec:
+  type: ClusterIP
+  selector:
+    app: cloudfrontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

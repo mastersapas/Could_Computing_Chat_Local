@@ -1,0 +1,39 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudapi-deployment
+  labels:
+    app: cloudapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudapi
+  template:
+    metadata:
+      labels:
+        app: cloudapi
+    spec:
+      containers:
+      - name: cloudapi
+        image: cloudapi
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3002
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudapi
+spec:
+  type: ClusterIP
+  selector:
+    app: cloudapi
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
+

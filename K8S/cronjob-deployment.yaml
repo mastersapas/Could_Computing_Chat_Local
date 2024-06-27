@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cloudcronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cloudcronjob
+            image: cloudcronjob
+            imagePullPolicy: Never
+          restartPolicy: OnFailure

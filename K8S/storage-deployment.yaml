@@ -1,0 +1,38 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudstorage-deployment
+  labels:
+    app: cloudstorage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudstorage
+  template:
+    metadata:
+      labels:
+        app: cloudstorage
+    spec:
+      containers:
+      - name: cloudstorage
+        image: cloudstorage
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3003
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudstorage
+spec:
+  type: ClusterIP
+  selector:
+    app: cloudstorage
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3003
